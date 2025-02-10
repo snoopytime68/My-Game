@@ -6,6 +6,9 @@ export default class game extends Phaser.Scene
     init()
         {
             this.paddlerightVelocity = new Phaser.Math.Vector2(0, 0)
+
+            this.leftScore = 0
+            this.rightScore = 0
         }
     
     preload()
@@ -42,9 +45,17 @@ export default class game extends Phaser.Scene
         this.physics.add.collider(this.paddleleft, this.ball)
         this.physics.add.collider(this.paddleright, this.ball)
 
-        this.leftScore = this.add.text(300, 125, '0')
-            .setOrigin
+
+        const scoreStyle = {
+            fontSize: 48
+        }
+        this.leftScoreLabel = this.add.text(300, 125, '0', scoreStyle)
+            .setOrigin(0.5, 0.5)
+
         
+        this.rightScoreLabel = this.add.text(500, 125, '0', scoreStyle)
+            .setOrigin(0.5, 0.5)
+
         this.cursors = this.input.keyboard.createCursorKeys()
 
     }
@@ -70,7 +81,7 @@ export default class game extends Phaser.Scene
             return
         }
 
-        const aiSpeed = 0.1
+        const aiSpeed = 3
         if (diff < 0)
         {
             //ball is above the paddle
@@ -84,7 +95,7 @@ export default class game extends Phaser.Scene
         {
             //ball is below the paddle
             this.paddlerightVelocity.y = aiSpeed
-            if (this.paddlerightVelocity.y >10)
+            if (this.paddlerightVelocity.y > 10)
             {
                 this.paddlerightVelocity.y = 10
             }
@@ -100,15 +111,29 @@ export default class game extends Phaser.Scene
         {
             //scored on the left side
             this.resetBall()
+            this.incrementRightScore()
         }
-        if (this.ball.x > 830)
+        else if (this.ball.x > 830)
         {
             //scored on the right side
             this.resetBall()
+            this.incrementLeftScore()
+            
         }
 
     }
 
+
+    incrementLeftScore()
+    {
+        this.leftScore += 1
+        this.leftScoreLabel.text = this.leftScore
+    }
+    incrementRightScore()
+    {
+        this.rightScore += 1
+        this.rightScoreLabel.text = this.rightScore
+    }
     resetBall()
     {
         this.ball.setPosition(400, 250)
