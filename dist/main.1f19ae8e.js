@@ -257710,6 +257710,8 @@ var game = exports.default = /*#__PURE__*/function (_Phaser$Scene) {
   }, {
     key: "create",
     value: function create() {
+      this.scene.run("game-background");
+      this.scene.sendToBack("game-background");
       this.physics.world.setBounds(-100, 0, 1000, 500);
       this.ball = this.add.circle(400, 250, 10, 0xfffffff, 1);
       this.physics.add.existing(this.ball);
@@ -257800,18 +257802,59 @@ var game = exports.default = /*#__PURE__*/function (_Phaser$Scene) {
     }
   }]);
 }(_phaser.default.Scene);
-},{"matter":"../node_modules/matter/index.js","phaser":"../node_modules/phaser/dist/phaser.js"}],"main.js":[function(require,module,exports) {
+},{"matter":"../node_modules/matter/index.js","phaser":"../node_modules/phaser/dist/phaser.js"}],"scenes/GameBackground.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _phaser = _interopRequireDefault(require("phaser"));
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _callSuper(t, o, e) { return o = _getPrototypeOf(o), _possibleConstructorReturn(t, _isNativeReflectConstruct() ? Reflect.construct(o, e || [], _getPrototypeOf(t).constructor) : o.apply(t, e)); }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+var GameBackground = exports.default = /*#__PURE__*/function (_Phaser$Scene) {
+  function GameBackground() {
+    _classCallCheck(this, GameBackground);
+    return _callSuper(this, GameBackground, arguments);
+  }
+  _inherits(GameBackground, _Phaser$Scene);
+  return _createClass(GameBackground, [{
+    key: "preload",
+    value: function preload() {}
+  }, {
+    key: "create",
+    value: function create() {
+      var whiteColor = 0xffffff;
+      this.add.line(400, 250, 0, 0, 0, 500, 0xffffff, 1).setLineWidth(2.5, 2.5);
+      this.add.circle(400, 250, 50).setStrokeStyle(5, whiteColor, 1);
+    }
+  }]);
+}(_phaser.default.Scene);
+},{"phaser":"../node_modules/phaser/dist/phaser.js"}],"main.js":[function(require,module,exports) {
 "use strict";
 
 var _phaser = _interopRequireDefault(require("phaser"));
 var _TitleScreen = _interopRequireDefault(require("./scenes/TitleScreen"));
 var _Game = _interopRequireDefault(require("./scenes/Game"));
+var _GameBackground = _interopRequireDefault(require("./scenes/GameBackground"));
 function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 var config = {
   width: 800,
   height: 500,
   type: _phaser.default.AUTO,
-  backgroundColor: "#659c92",
+  //backgroundColor: "#659c92",
   physics: {
     default: "arcade",
     arcade: {
@@ -257825,10 +257868,11 @@ var config = {
 var game = new _phaser.default.Game(config);
 game.scene.add("titlescreen", _TitleScreen.default);
 game.scene.add("game", _Game.default);
+game.scene.add("game-background", _GameBackground.default);
 
 //game.scene.start(titlescreen)
 game.scene.start("game");
-},{"phaser":"../node_modules/phaser/dist/phaser.js","./scenes/TitleScreen":"scenes/TitleScreen.js","./scenes/Game":"scenes/Game.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"phaser":"../node_modules/phaser/dist/phaser.js","./scenes/TitleScreen":"scenes/TitleScreen.js","./scenes/Game":"scenes/Game.js","./scenes/GameBackground":"scenes/GameBackground.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -257853,7 +257897,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39783" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "39791" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
